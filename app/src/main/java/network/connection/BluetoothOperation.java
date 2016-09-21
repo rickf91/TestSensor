@@ -1,26 +1,31 @@
 package network.connection;
 
+import android.app.Activity;
 import android.app.Service;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 
 /**
  * Created by richard on 16/9/21.
  */
 
 public class BluetoothOperation extends Service {
-
-
     // Initializes Bluetooth adapter.
-    final BluetoothManager bluetoothManager =
-            (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-    mBluetoothAdapter=bluetoothManager.getAdapter();
+    BluetoothOperation(Activity act) {
 
-    private BluetoothAdapter mBluetoothAdapter;
-
-
-    private void broadcastUpdate(final String action) {
-        final Intent intent = new Intent(action);
-        sendBroadcast(intent);
     }
+
+
+    private BluetoothAdapter mBluetoothAdapter  = null;
+    final BluetoothManager bluetoothManager     =
+            (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+    mBluetoothAdapter = bluetoothManager.getAdapter();
+
+
+//    private void broadcastUpdate(final String action) {
+//        final Intent intent = new Intent(action);
+//        sendBroadcast(intent);
+//    }
 
     private void broadcastUpdate(final String action,
                                  final BluetoothGattCharacteristic characteristic) {
@@ -55,7 +60,7 @@ public class BluetoothOperation extends Service {
         sendBroadcast(intent);
     }
 
-    / Handles various events fired by the Service.
+    // Handles various events fired by the Service.
     // ACTION_GATT_CONNECTED: connected to a GATT server.
 // ACTION_GATT_DISCONNECTED: disconnected from a GATT server.
 // ACTION_GATT_SERVICES_DISCOVERED: discovered GATT services.
