@@ -41,12 +41,12 @@ public class DataReceiveBLE extends DataReceiveBase {
             mRefActivity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
-
+        return true;
 
     }
 
     @Override
     protected boolean endTask() {
-
+        return true;
     }
 }

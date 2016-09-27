@@ -23,13 +23,13 @@ public class DataReceiveWiFI extends DataReceiveBase {
 
     @Override
     protected boolean beginTask() {
-
+        return true;
     }
 
     @Override
     protected boolean endTask() {
-
+        return true;
     }
 
-    private void openWiFi
+    //private void openWiFi
 }

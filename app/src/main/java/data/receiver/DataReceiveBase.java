@@ -60,6 +60,7 @@ public abstract class DataReceiveBase extends Observable implements IEnvDataRece
     @Override
     public boolean getData(EnvData sensorData) {
         notifyObservers(sensorData);
+        return true;
     }
 
 
