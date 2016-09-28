@@ -68,7 +68,7 @@ public class DeviceScanActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         initial_naviview(this);
-        getActionBar().setTitle(R.string.title_devices);
+        //getActionBar().setTitle(R.string.title_devices);
         mHandler = new Handler();
 
         // Use this check to determine whether BLE is supported on the device.  Then you can
@@ -96,7 +96,7 @@ public class DeviceScanActivity extends AppCompatActivity
     private void initial_naviview(Activity act) {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         mListView = (ListView)findViewById(R.id.listView);
 
@@ -186,8 +186,8 @@ public class DeviceScanActivity extends AppCompatActivity
         } else {
             menu.findItem(R.id.menu_stop).setVisible(true);
             menu.findItem(R.id.menu_scan).setVisible(false);
-            menu.findItem(R.id.menu_refresh).setActionView(
-                    R.layout.actionbar_indeterminate_progress);
+            //menu.findItem(R.id.menu_refresh).setActionView(
+             //       R.layout.actionbar_indeterminate_progress);
         }
         return true;
     }
