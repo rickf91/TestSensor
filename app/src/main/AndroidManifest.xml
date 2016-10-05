@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="top.isense.demo.testsensor">
-    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +23,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!--
                 <activity>
 
@@ -23,19 +37,32 @@
                     </intent-filter>
                 </activity>
         -->
-            android:icon="@drawable/ic_launcher"
-            android:theme="@android:style/Theme.Holo.Light">
-            <activity android:name=".DeviceScanActivity"
-                android:label="@string/app_name">
-                <intent-filter>
-                    <action android:name="android.intent.action.MAIN"/>
-                    <category android:name="android.intent.category.LAUNCHER"/>
-                </intent-filter>
-            </activity>
-            <activity android:name=".DeviceControlActivity"/>
-            <service android:name=".BluetoothLeService" android:enabled="true"/>
+        android:icon="@drawable/ic_launcher"
+        <!-- android:theme="@android:style/Theme.Holo.Light"> -->
+        android:theme="@android:style/AppTheme.NoActionBar">
+        <activity
+            android:name=".DeviceScanActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DeviceControlActivity" />
 
+        <service
+            android:name=".BluetoothLeService"
+            android:enabled="true" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="6dgIXDHDf2WmGPm45oolCgkRS6aaWdgl" />
+
+        <activity
+            android:name="top.isense.gpssimulate.GPSSetting"
+            android:label="@string/title_activity_gpssetting"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

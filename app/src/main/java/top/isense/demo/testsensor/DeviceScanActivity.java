@@ -19,11 +19,14 @@ package top.isense.demo.testsensor;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -41,11 +44,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import top.isense.gpssimulate.GPSSetting;
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
@@ -158,7 +164,7 @@ public class DeviceScanActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            StartGPSSimulate();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -174,6 +180,15 @@ public class DeviceScanActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected void StartGPSSimulate() {
+
+        Intent intent = new Intent(this.getApplicationContext(), GPSSetting.class);
+        //intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_NAME, device.getName());
+        //intent.putExtra(DeviceControlActivity.EXTRAS_DEVICE_ADDRESS, device.getAddress());
+
+        startActivity(intent);
     }
 
     @Override
@@ -308,6 +323,40 @@ public class DeviceScanActivity extends AppCompatActivity
             return i;
         }
 
+        private void setDeviceImageView(BluetoothDevice device, ImageView view) {
+            if(null == view || null == device) return;
+
+            switch (device.getBluetoothClass().getMajorDeviceClass()) {
+                case BluetoothClass.Device.Major.AUDIO_VIDEO:
+                    view.setImageResource(android.R.drawable.presence_video_online);
+                    break;
+                case BluetoothClass.Device.Major.COMPUTER:
+                    view.setImageResource(android.R.drawable.ic_menu_edit);
+                    break;
+                case BluetoothClass.Device.Major.HEALTH:
+                    view.setImageResource(android.R.drawable.ic_menu_compass);
+                    break;
+                case BluetoothClass.Device.Major.IMAGING:
+                    view.setImageResource(android.R.drawable.ic_menu_camera);
+                    break;
+                case BluetoothClass.Device.Major.NETWORKING:
+                    view.setImageResource(android.R.drawable.ic_menu_send);
+                    break;
+                case BluetoothClass.Device.Major.PHONE:
+                    view.setImageResource(android.R.drawable.ic_menu_call);
+                    break;
+                case BluetoothClass.Device.Major.WEARABLE:
+                    view.setImageResource(android.R.drawable.ic_menu_agenda);
+                    break;
+                case BluetoothClass.Device.Major.TOY:
+                case BluetoothClass.Device.Major.UNCATEGORIZED:
+                case BluetoothClass.Device.Major.PERIPHERAL:
+                case BluetoothClass.Device.Major.MISC:
+                default:
+                    view.setImageResource(android.R.drawable.ic_menu_help);
+            }
+        }
+
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder viewHolder;
@@ -317,6 +366,9 @@ public class DeviceScanActivity extends AppCompatActivity
                 viewHolder = new ViewHolder();
                 viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
                 viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
+                viewHolder.deviceType = (ImageView)view.findViewById(R.id.device_type);
+
+                setDeviceImageView(mLeDevices.get(i), viewHolder.deviceType);
                 view.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) view.getTag();
@@ -330,6 +382,7 @@ public class DeviceScanActivity extends AppCompatActivity
                 viewHolder.deviceName.setText(R.string.unknown_device);
             viewHolder.deviceAddress.setText(device.getAddress());
 
+            //viewHolder.deviceType.setImageResource(R.drawable.ic_menu_slideshow);
             return view;
         }
     }
@@ -351,7 +404,8 @@ public class DeviceScanActivity extends AppCompatActivity
     };
 
     static class ViewHolder {
-        TextView deviceName;
-        TextView deviceAddress;
+        TextView    deviceName;
+        TextView    deviceAddress;
+        ImageView   deviceType;
     }
 }

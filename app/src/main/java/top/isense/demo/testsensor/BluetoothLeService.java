@@ -89,6 +89,27 @@ public class BluetoothLeService extends Service {
             }
         }
 
+        public void onCharacteristicWrite(BluetoothGatt gatt,
+                                          BluetoothGattCharacteristic characteristic, int status) {
+            Log.i(TAG, "onCharacter Write");
+        }
+
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+                                      int status) {
+            Log.i(TAG, "onDescriptor Write");
+            String buff = "start";
+//            BluetoothGattDescriptor descriptor2 = characteristic.getDescriptor(
+//                UUID.fromString(SampleGattAttributes.ALPWISE_COMMAND_VALUE));
+//            descriptor2.setValue(buff.getBytes());
+//            mBluetoothGatt.writeDescriptor(descriptor2);
+
+            BluetoothGattCharacteristic characteristic =
+                    descriptor.getCharacteristic().getService().getCharacteristics().get(0);
+            //characteristic.setValue(buff.getBytes());
+            characteristic.setValue(buff.getBytes());
+            mBluetoothGatt.writeCharacteristic(characteristic);
+        }
+
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
@@ -294,15 +315,27 @@ public class BluetoothLeService extends Service {
             Log.w(TAG, "BluetoothAdapter not initialized");
             return;
         }
+
+        if(!enabled) return;
+
         mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
 
         // This is specific to Heart Rate Measurement.
-        if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
+ //       if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
             BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
                     UUID.fromString(SampleGattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
             mBluetoothGatt.writeDescriptor(descriptor);
-        }
+
+//
+//            try {
+//                Thread.sleep(500);
+//            }catch(InterruptedException e) {
+//                e.printStackTrace();
+//            }
+
+
+ //       }
     }
 
     /**
